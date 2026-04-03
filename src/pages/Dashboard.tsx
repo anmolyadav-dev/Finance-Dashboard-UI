@@ -90,7 +90,7 @@ export function Dashboard() {
           {monthlySummaries.length === 0 ? (
             <EmptyChart />
           ) : (
-            <ResponsiveContainer width="100%" height={220}>
+            <ResponsiveContainer width="100%" height={240}>
               <AreaChart data={monthlySummaries} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
                 <defs>
                   <linearGradient id="incomeGrad" x1="0" y1="0" x2="0" y2="1">
@@ -122,9 +122,9 @@ export function Dashboard() {
           {categoryBreakdown.length === 0 ? (
             <EmptyChart label="No expense data yet" />
           ) : (
-            <ResponsiveContainer width="100%" height={220}>
+            <ResponsiveContainer width="100%" height={240}>
               <PieChart>
-                <Pie data={categoryBreakdown} cx="50%" cy="45%" innerRadius={55} outerRadius={82} paddingAngle={3} dataKey="value">
+                <Pie data={categoryBreakdown} cx="50%" cy="45%" innerRadius={50} outerRadius={76} paddingAngle={3} dataKey="value">
                   {categoryBreakdown.map((_, i) => (
                     <Cell key={i} fill={colors[i % colors.length]} stroke="transparent" />
                   ))}
