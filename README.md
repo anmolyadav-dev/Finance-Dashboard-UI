@@ -28,7 +28,7 @@ Ensure you have Node.js 18+ installed.
 
 1. Clone the repository and navigate to the directory:
    ```bash
-   cd Desktop/zorvyn-intern
+   cd Finance-Dashboard-UI
    ```
 2. Install dependencies:
    ```bash
