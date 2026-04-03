@@ -33,7 +33,7 @@ export const useAppStore = create<AppState>()(
     (set) => ({
       transactions: mockTransactions,
       role: 'viewer',
-      theme: 'light',
+      theme: 'dark',
       isMobileMenuOpen: false,
       activeView: 'dashboard',
       filters: {
@@ -76,7 +76,7 @@ export const useAppStore = create<AppState>()(
         set((s) => ({ filters: { ...s.filters, [key]: value } })),
     }),
     {
-      name: 'zorvyn-app',
+      name: 'anmol-finance-app',
       partialize: (s) => ({
         transactions: s.transactions,
         role: s.role,

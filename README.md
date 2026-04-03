@@ -1,6 +1,6 @@
-# Zorvyn Finance Dashboard
+# Anmol Finance Dashboard
 
-A stunning, premium mock personal finance dashboard built strictly as an SPA using React 19, TypeScript, and Vite. Designed to fulfill all the requirements of the Zorvyn Screening Portal assessment.
+A stunning, premium mock personal finance dashboard built strictly as an SPA using React 19, TypeScript, and Vite.
 
 ## 🚀 Features
 

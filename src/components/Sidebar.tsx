@@ -4,7 +4,6 @@ import {
   Sun, Moon, ShieldCheck, Eye,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import logoLight from '../assets/zorvynfulllogolight.png';
 
 const navItems = [
   { id: 'dashboard',    label: 'Dashboard',    icon: <LayoutDashboard size={16} /> },
@@ -24,15 +23,21 @@ export function Sidebar() {
       }}
     >
       {/* Logo */}
-      <div className="px-3 mb-6 flex items-center">
-        <img 
-          src={logoLight} 
-          alt="Zorvyn Finance" 
-          className="h-9 w-auto object-contain transition-all duration-300"
-          style={{ 
-             filter: theme === 'dark' ? 'brightness(0) invert(1) opacity(0.9)' : 'grayscale(1) contrast(1.2)'
-          }}
-        />
+      <div className="px-3 mb-6">
+        <div className="flex items-center gap-2.5">
+          <div
+            className="w-9 h-9 rounded-2xl flex items-center justify-center text-white text-sm font-extrabold shadow-lg"
+            style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-hover))' }}
+          >
+            A
+          </div>
+          <div>
+            <span className="font-extrabold text-base tracking-tight block" style={{ color: 'var(--color-text-primary)' }}>
+              Anmol
+            </span>
+            <span className="text-[0.65rem] font-semibold tracking-widest uppercase" style={{ color: 'var(--color-gold)' }}>Finance</span>
+          </div>
+        </div>
       </div>
 
       {/* Nav */}

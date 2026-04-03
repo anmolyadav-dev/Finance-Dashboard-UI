@@ -61,7 +61,7 @@ export function exportToCSV(transactions: Transaction[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'zorvyn-transactions.csv';
+  a.download = 'anmol-transactions.csv';
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -71,7 +71,7 @@ export function exportToJSON(transactions: Transaction[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'zorvyn-transactions.json';
+  a.download = 'anmol-transactions.json';
   a.click();
   URL.revokeObjectURL(url);
 }
