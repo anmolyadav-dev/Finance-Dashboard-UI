@@ -1,0 +1,95 @@
+import { useState, useEffect } from 'react';
+import type { Transaction } from '../types';
+import { categories } from '../data/mockData';
+import { X } from 'lucide-react';
+
+interface Props {
+  initial?: Transaction | null;
+  onSave: (tx: Omit<Transaction, 'id'> | Transaction) => void;
+  onClose: () => void;
+}
+
+const categoryOptions = categories.filter((c) => c !== 'all');
+
+export function TransactionModal({ initial, onSave, onClose }: Props) {
+  const [form, setForm] = useState<Omit<Transaction, 'id'>>({
+    date: new Date().toISOString().split('T')[0],
+    description: '',
+    amount: 0,
+    type: 'expense',
+    category: 'Food & Dining',
+  });
+
+  useEffect(() => {
+    if (initial) {
+      const { id: _id, ...rest } = initial;
+      setForm(rest);
+    }
+  }, [initial]);
+
+  const set = (key: keyof typeof form, value: string | number) =>
+    setForm((f) => ({ ...f, [key]: value }));
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.description || !form.amount || !form.date) return;
+    if (initial) {
+      onSave({ ...form, id: initial.id } as Transaction);
+    } else {
+      onSave(form);
+    }
+    onClose();
+  };
+
+  return (
+    <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="modal-box">
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-lg font-bold" style={{ color: 'var(--color-text-primary)' }}>
+            {initial ? 'Edit Transaction' : 'Add Transaction'}
+          </h2>
+          <button onClick={onClose} className="btn-ghost !p-1.5 !border-0">
+            <X size={18} />
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div>
+            <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>Description</label>
+            <input className="input" value={form.description} onChange={(e) => set('description', e.target.value)} placeholder="e.g. Grocery Store" required />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>Amount (₹)</label>
+              <input className="input" type="number" min={1} value={form.amount || ''} onChange={(e) => set('amount', Number(e.target.value))} placeholder="0" required />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>Date</label>
+              <input className="input" type="date" value={form.date} onChange={(e) => set('date', e.target.value)} required />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>Type</label>
+              <select className="input" value={form.type} onChange={(e) => set('type', e.target.value as 'income' | 'expense')}>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-semibold mb-1.5" style={{ color: 'var(--color-text-secondary)' }}>Category</label>
+              <select className="input" value={form.category} onChange={(e) => set('category', e.target.value)}>
+                {categoryOptions.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="flex gap-3 pt-1">
+            <button type="button" onClick={onClose} className="btn-ghost flex-1 justify-center">Cancel</button>
+            <button type="submit" className="btn-primary flex-1 justify-center">
+              {initial ? 'Save Changes' : 'Add Transaction'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
