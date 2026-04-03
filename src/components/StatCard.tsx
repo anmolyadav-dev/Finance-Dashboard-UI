@@ -1,52 +1,108 @@
-import React from 'react';
-import { formatCurrency } from '../utils';
-import { ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
-interface StatCardProps {
+/** Animated count-up hook */
+function useCountUp(target: number, duration = 1200) {
+  const [value, setValue] = useState(0);
+  const raf = useRef<number>(0);
+
+  useEffect(() => {
+    const start = performance.now();
+    const step = (ts: number) => {
+      const progress = Math.min((ts - start) / duration, 1);
+      const eased = 1 - (1 - progress) ** 3;
+      setValue(Math.round(eased * target));
+      if (progress < 1) raf.current = requestAnimationFrame(step);
+    };
+    raf.current = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf.current);
+  }, [target, duration]);
+
+  return value;
+}
+
+function formatINR(n: number): string {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0,
+  }).format(n);
+}
+
+type Variant = 'balance' | 'income' | 'expense';
+
+interface MetaEntry {
+  gradientCard: string;
+  gradientIcon: string;
+  tag: string;
+  tagBg: string;
+  tagColor: string;
+}
+
+const meta: Record<Variant, MetaEntry> = {
+  balance: {
+    gradientCard: 'stat-card-balance',
+    gradientIcon: 'icon-ring-balance',
+    tag: 'Net',
+    tagBg: 'rgba(47,58,143,0.1)',
+    tagColor: 'var(--color-primary)',
+  },
+  income: {
+    gradientCard: 'stat-card-income',
+    gradientIcon: 'icon-ring-income',
+    tag: '↑ Income',
+    tagBg: 'rgba(21,154,111,0.1)',
+    tagColor: 'var(--color-profit)',
+  },
+  expense: {
+    gradientCard: 'stat-card-expense',
+    gradientIcon: 'icon-ring-expense',
+    tag: '↓ Expenses',
+    tagBg: 'rgba(194,65,65,0.1)',
+    tagColor: 'var(--color-loss)',
+  },
+};
+
+interface Props {
   title: string;
   value: number;
   subtitle?: string;
-  variant?: 'default' | 'income' | 'expense';
+  variant?: Variant;
   icon: React.ReactNode;
   delay?: number;
 }
 
-export function StatCard({ title, value, subtitle, variant = 'default', icon, delay = 0 }: StatCardProps) {
-  const colorMap = {
-    default: { text: 'var(--color-primary)', bg: 'var(--color-primary-soft)', arrow: <Minus size={14} /> },
-    income: { text: 'var(--color-profit)', bg: 'rgba(21,154,111,0.12)', arrow: <ArrowUpRight size={14} /> },
-    expense: { text: 'var(--color-loss)', bg: 'rgba(194,65,65,0.12)', arrow: <ArrowDownRight size={14} /> },
-  };
-  const c = colorMap[variant];
+export function StatCard({ title, value, subtitle, variant = 'balance', icon, delay = 0 }: Props) {
+  const animated = useCountUp(value);
+  const m = meta[variant];
 
   return (
-    <div
-      className="card p-5 animate-fade-up"
-      style={{ animationDelay: `${delay}ms` }}
+    <motion.div
+      className={`card card-hover ${m.gradientCard} p-6`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, delay: delay / 1000 }}
     >
-      <div className="flex items-start justify-between mb-4">
-        <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center"
-          style={{ background: c.bg, color: c.text }}
-        >
+      <div className="flex items-start justify-between mb-5">
+        <div className={`w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0 ${m.gradientIcon}`}>
           {icon}
         </div>
         <span
-          className="flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full"
-          style={{ background: c.bg, color: c.text }}
+          className="text-[0.68rem] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
+          style={{ background: m.tagBg, color: m.tagColor }}
         >
-          {c.arrow} Live
+          {m.tag}
         </span>
       </div>
-      <div>
-        <p className="text-sm font-medium mb-1" style={{ color: 'var(--color-text-secondary)' }}>{title}</p>
-        <p className="text-2xl font-bold tracking-tight" style={{ color: 'var(--color-text-primary)' }}>
-          {formatCurrency(value)}
-        </p>
-        {subtitle && (
-          <p className="text-xs mt-1" style={{ color: 'var(--color-text-secondary)' }}>{subtitle}</p>
-        )}
-      </div>
-    </div>
+      <p className="text-[0.78rem] font-semibold mb-1.5 tracking-wide uppercase" style={{ color: 'var(--color-text-secondary)' }}>
+        {title}
+      </p>
+      <p className="text-[1.9rem] font-extrabold tracking-tight leading-none" style={{ color: 'var(--color-text-primary)' }}>
+        {formatINR(animated)}
+      </p>
+      {subtitle && (
+        <p className="text-xs mt-2" style={{ color: 'var(--color-text-secondary)' }}>{subtitle}</p>
+      )}
+    </motion.div>
   );
 }
