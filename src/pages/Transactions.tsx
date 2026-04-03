@@ -6,6 +6,7 @@ import { TransactionModal } from '../components/TransactionModal';
 import type { Transaction } from '../types';
 import { categories } from '../data/mockData';
 import { exportToCSV, exportToJSON } from '../utils';
+import { subDays, isAfter, parseISO } from 'date-fns';
 import { Plus, Search, SortAsc, SortDesc, Download, X } from 'lucide-react';
 import { EmptyState } from './Dashboard';
 
@@ -35,6 +36,10 @@ export function Transactions() {
   const activeFilters: { key: string; label: string }[] = [];
   if (filters.type !== 'all') activeFilters.push({ key: 'type', label: `Type: ${filters.type}` });
   if (filters.category !== 'all') activeFilters.push({ key: 'category', label: `Category: ${filters.category}` });
+  if (filters.dateRange && filters.dateRange !== 'all') {
+    const labels: Record<string, string> = { '7days': 'Last 7 Days', '30days': 'Last 30 Days' };
+    activeFilters.push({ key: 'dateRange', label: `Date: ${labels[filters.dateRange]}` });
+  }
   if (filters.search) activeFilters.push({ key: 'search', label: `"${filters.search}"` });
 
   const clearFilter = (key: string) => {
@@ -50,6 +55,10 @@ export function Transactions() {
     }
     if (filters.type !== 'all') txs = txs.filter((t) => t.type === filters.type);
     if (filters.category !== 'all') txs = txs.filter((t) => t.category === filters.category);
+    if (filters.dateRange && filters.dateRange !== 'all') {
+      const threshold = filters.dateRange === '7days' ? subDays(new Date(), 7) : subDays(new Date(), 30);
+      txs = txs.filter((t) => isAfter(parseISO(t.date), threshold));
+    }
     txs.sort((a, b) => {
       const dir = filters.sortDir === 'asc' ? 1 : -1;
       if (filters.sortBy === 'date') return dir * (new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -109,6 +118,11 @@ export function Transactions() {
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
+        <select className="input !w-auto !text-xs min-w-32" value={filters.dateRange || 'all'} onChange={(e) => setFilter('dateRange', e.target.value)}>
+          <option value="all">All Time</option>
+          <option value="7days">Last 7 Days</option>
+          <option value="30days">Last 30 Days</option>
+        </select>
         <select className="input !w-auto !text-xs min-w-40" value={filters.category} onChange={(e) => setFilter('category', e.target.value)}>
           {categories.map((c) => (
             <option key={c} value={c}>{c === 'all' ? 'All Categories' : c}</option>
@@ -140,9 +154,9 @@ export function Transactions() {
               </motion.span>
             ))}
             <button
-              className="text-xs underline"
+              className="text-xs underline cursor-pointer"
               style={{ color: 'var(--color-text-secondary)' }}
-              onClick={() => { setSearchInput(''); setFilter('search', ''); setFilter('type', 'all'); setFilter('category', 'all'); }}
+              onClick={() => { setSearchInput(''); setFilter('search', ''); setFilter('type', 'all'); setFilter('category', 'all'); setFilter('dateRange', 'all'); }}
             >
               Clear all
             </button>

@@ -24,8 +24,8 @@ export function Topbar() {
     >
       <div className="flex items-center gap-3">
         <div className="md:hidden">
-          <button 
-            className="btn-ghost !p-2" 
+          <button
+            className="btn-ghost !p-2"
             onClick={() => setMobileMenuOpen(true)}
           >
             <Menu size={20} style={{ color: 'var(--color-text-primary)' }} />
@@ -44,7 +44,7 @@ export function Topbar() {
         <div className="relative hidden sm:block">
           <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--color-text-secondary)' }} />
           <input
-            className="input !w-48 pl-9 text-xs"
+            className="input !w-48 !pl-9 text-xs"
             placeholder="Quick search..."
             readOnly
             onClick={() => useAppStore.getState().setActiveView('transactions')}

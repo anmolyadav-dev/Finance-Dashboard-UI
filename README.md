@@ -1,92 +1,59 @@
 # Zorvyn Finance Dashboard
 
-A premium financial tracking dashboard built with React, TypeScript, Tailwind CSS, Recharts, and Zustand.
+A stunning, premium mock personal finance dashboard built strictly as an SPA using React 19, TypeScript, and Vite. Designed to fulfill all the requirements of the Zorvyn Screening Portal assessment.
 
-## 🚀 Setup
+## 🚀 Features
 
-```bash
-npm install
-npm run dev
-```
-
-Then open [http://localhost:5173](http://localhost:5173).
-
-## ✨ Features
-
-### Dashboard
-- **Summary Cards** – Total Balance, Income, Expenses with live indicators
-- **Balance Trend** – Area chart showing income vs. expenses over 6 months
-- **Spending Breakdown** – Donut/pie chart by category
-- **Recent Transactions** – Quick view of last 5 transactions
-
-### Transactions
-- **Full transaction list** with date, description, category, type, and amount
-- **Search** – filter by keyword across description and category
-- **Filter** – by transaction type (`income` / `expense`) and category
-- **Sort** – by date or amount (ascending/descending)
-- **Export** – download as CSV or JSON
-- **Admin-only** – Add, Edit, and Delete transactions via modal
-
-### Insights
-- **Key Metric Cards** – highest spending category, savings rate, expense trend vs. prior month, total transaction count
-- **Monthly Comparison** – grouped bar chart (income vs. expenses per month)
-- **Spending Pattern** – radar chart across top categories
-- **Category Breakdown** – animated progress bars showing % of total spending per category
-
-## 🔐 Role-Based UI
-
-Switch between roles using the **Role toggle** in the sidebar:
-
-| Feature | Viewer | Admin |
-|---|---|---|
-| View dashboard, transactions, insights | ✅ | ✅ |
-| Add transaction | ❌ | ✅ |
-| Edit transaction | ❌ | ✅ |
-| Delete transaction | ❌ | ✅ |
-
-## 🎨 Theme
-
-Toggle between **Light** and **Dark** mode via the sidebar. The chosen theme persists across sessions (via `localStorage`).
-
-## 🗄️ State Management
-
-Zustand store with `persist` middleware:
-- Persists `transactions`, `role`, and `theme` to `localStorage`
-- Centralized filters handled in-store
-- Clean action-based API for mutations
-
-## 📁 Project Structure
-
-```
-src/
-├── components/
-│   ├── Sidebar.tsx          # Navigation + role/theme toggles
-│   ├── Topbar.tsx           # Page header + user role indicator
-│   ├── StatCard.tsx         # Summary metric card
-│   ├── TransactionRow.tsx   # Single table row (with admin actions)
-│   └── TransactionModal.tsx # Add/Edit transaction form
-├── pages/
-│   ├── Dashboard.tsx        # Overview page
-│   ├── Transactions.tsx     # Full transaction management
-│   └── Insights.tsx         # Analytics and observations
-├── store/
-│   └── useAppStore.ts       # Zustand store
-├── data/
-│   └── mockData.ts          # Static mock transactions generator
-├── types/
-│   └── index.ts             # TypeScript types
-└── utils/
-    └── index.ts             # Formatting, export, aggregation helpers
-```
+- **Financial Summary**: High-level balance, income, and expenses cards.
+- **Transactions Management**: Full-featured transaction table with robust filtering (Type, Category, Date), searching, and sorting.
+- **Role-Based Access Control**: Fully functional simulated toggle between "Admin" and "Viewer" modes. Admins get edit/add rights, viewers are strictly read-only.
+- **Insights & Visualizations**: Interactive Recharts integrations including balance area trend charts, category pie charts, and natural language smart insights.
+- **Micro-Interactions**: Fluid, state-aware animations via Framer Motion for a truly premium "million-dollar app" feel.
+- **Premium Aesthetics**: Sophisticated custom color variables, deep indigo/gold themes, gradient accents, and dark/light mode toggle.
+- **Local Persistence**: State and preferences strictly persisted to LocalStorage via Zustand middleware.
 
 ## 🛠 Tech Stack
 
-| Library | Purpose |
-|---|---|
-| React 19 + TypeScript | Core framework |
-| Vite | Build tool |
-| Tailwind CSS v4 | Utility-first styling |
-| Recharts | Charts (Area, Bar, Pie, Radar) |
-| Zustand | State management with persistence |
-| Lucide React | Icons |
-| date-fns | Date formatting and math |
+- **Framework**: React 19 + TypeScript + Vite
+- **Styling**: Tailwind CSS v4 + Vanilla CSS custom variables
+- **State Management**: Zustand
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **Charts**: Recharts
+- **Date Handling**: date-fns
+
+## 📦 Setup & Installation
+
+Ensure you have Node.js 18+ installed.
+
+1. Clone the repository and navigate to the directory:
+   ```bash
+   cd Desktop/zorvyn-intern
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open the application at [http://localhost:5173/](http://localhost:5173/).
+
+## 💡 Architecture & Approach
+
+This project focuses on **Extensibility** and **Premium UI**.
+- **Zustand** was selected for state management due to its lightweight nature and incredibly simple persisting utilities, handling our mock backend flawlessly.
+- **Framer Motion** was integrated deeply to make navigating between data feel liquid, utilizing stagger animations and layout transitions.
+- **Tailwind** is augmented by native CSS Variables (`index.css`), keeping the theme dynamic while allowing arbitrary color toggles in JS.
+
+## ✅ Requirements Fulfillment Checklist
+- [x] Balance & transaction summaries
+- [x] Transaction List + Filters (Category, Date, Type, Search)
+- [x] Mock Roles (Admin vs User)
+- [x] Distinct Insights & Visualizations
+- [x] Fully Responsive Layout
+- [x] LocalStorage Persistence *[Bonus]*
+- [x] Dark Mode *[Bonus]*
+- [x] Seamless Animations *[Bonus]*
+- [x] Export to CSV/JSON *[Bonus]*

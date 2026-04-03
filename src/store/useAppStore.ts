@@ -14,6 +14,7 @@ interface AppState {
     search: string;
     type: 'all' | 'income' | 'expense';
     category: string;
+    dateRange: 'all' | '7days' | '30days';
     sortBy: 'date' | 'amount';
     sortDir: 'asc' | 'desc';
   };
@@ -39,6 +40,7 @@ export const useAppStore = create<AppState>()(
         search: '',
         type: 'all',
         category: 'all',
+        dateRange: 'all',
         sortBy: 'date',
         sortDir: 'desc',
       },
