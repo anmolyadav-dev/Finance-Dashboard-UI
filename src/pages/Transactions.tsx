@@ -98,7 +98,7 @@ export function Transactions() {
         <div className="relative flex-1 min-w-40">
           <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--color-text-secondary)' }} />
           <input
-            className="input pl-9 !text-xs relative"
+            className="input pl-9 !text-xs"
             placeholder="Search transactions..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}

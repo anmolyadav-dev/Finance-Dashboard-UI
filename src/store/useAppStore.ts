@@ -8,6 +8,7 @@ interface AppState {
   transactions: Transaction[];
   role: Role;
   theme: 'light' | 'dark';
+  isMobileMenuOpen: boolean;
   activeView: string;
   filters: {
     search: string;
@@ -18,6 +19,7 @@ interface AppState {
   };
   setRole: (role: Role) => void;
   setTheme: (theme: 'light' | 'dark') => void;
+  setMobileMenuOpen: (isOpen: boolean) => void;
   setActiveView: (view: string) => void;
   addTransaction: (tx: Omit<Transaction, 'id'>) => void;
   updateTransaction: (id: string, tx: Partial<Transaction>) => void;
@@ -31,6 +33,7 @@ export const useAppStore = create<AppState>()(
       transactions: mockTransactions,
       role: 'viewer',
       theme: 'light',
+      isMobileMenuOpen: false,
       activeView: 'dashboard',
       filters: {
         search: '',
@@ -48,7 +51,8 @@ export const useAppStore = create<AppState>()(
         }
         set({ theme });
       },
-      setActiveView: (activeView) => set({ activeView }),
+      setMobileMenuOpen: (isMobileMenuOpen) => set({ isMobileMenuOpen }),
+      setActiveView: (activeView) => set({ activeView, isMobileMenuOpen: false }),
       addTransaction: (tx) =>
         set((s) => ({
           transactions: [

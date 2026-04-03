@@ -1,5 +1,5 @@
 import { useAppStore } from '../store/useAppStore';
-import { Bell, Search } from 'lucide-react';
+import { Bell, Search, Menu } from 'lucide-react';
 import { formatDate } from '../utils';
 import { motion } from 'framer-motion';
 
@@ -10,7 +10,7 @@ const titles: Record<string, string> = {
 };
 
 export function Topbar() {
-  const { activeView, role } = useAppStore();
+  const { activeView, role, setMobileMenuOpen } = useAppStore();
   const today = formatDate(new Date().toISOString().split('T')[0]);
   const isAdmin = role === 'admin';
 
@@ -22,11 +22,21 @@ export function Topbar() {
         background: 'var(--color-bg-card)',
       }}
     >
-      <div>
-        <h1 className="text-[1.35rem] font-extrabold tracking-tight leading-none" style={{ color: 'var(--color-text-primary)' }}>
-          {titles[activeView]}
-        </h1>
-        <p className="text-xs mt-1" style={{ color: 'var(--color-text-secondary)' }}>{today}</p>
+      <div className="flex items-center gap-3">
+        <div className="md:hidden">
+          <button 
+            className="btn-ghost !p-2" 
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <Menu size={20} style={{ color: 'var(--color-text-primary)' }} />
+          </button>
+        </div>
+        <div>
+          <h1 className="text-[1.35rem] font-extrabold tracking-tight leading-none" style={{ color: 'var(--color-text-primary)' }}>
+            {titles[activeView]}
+          </h1>
+          <p className="text-xs mt-1" style={{ color: 'var(--color-text-secondary)' }}>{today}</p>
+        </div>
       </div>
 
       <div className="flex items-center gap-3">
