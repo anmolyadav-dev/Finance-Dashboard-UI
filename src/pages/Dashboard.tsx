@@ -3,6 +3,7 @@ import { motion, type Variants } from 'framer-motion';
 import { useAppStore } from '../store/useAppStore';
 import { StatCard } from '../components/StatCard';
 import { getTotals, getMonthlySummaries, getCategoryBreakdown, formatCurrency } from '../utils';
+import { CategoryIcon } from '../components/CategoryIcon';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, PieChart, Pie, Cell, Legend,
@@ -177,7 +178,10 @@ export function Dashboard() {
               >
                 <div>
                   <p className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>{tx.description}</p>
-                  <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>{tx.category} · {tx.date}</p>
+                  <p className="text-xs mt-0.5 flex items-center gap-1.5" style={{ color: 'var(--color-text-secondary)' }}>
+                    <CategoryIcon category={tx.category} size={11} className="opacity-70" />
+                    {tx.category} <span className="opacity-50">·</span> {tx.date}
+                  </p>
                 </div>
                 <p
                   className="text-sm font-bold"

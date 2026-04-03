@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Transaction } from '../types';
 import { formatCurrency, formatDate } from '../utils';
-import { Pencil, Trash2, TrendingUp, TrendingDown } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
+import { CategoryIcon } from './CategoryIcon';
 
 interface Props {
   transaction: Transaction;
@@ -44,7 +45,7 @@ export function TransactionRow({ transaction, isAdmin, onEdit, onDelete, index }
             className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 text-white shadow-sm"
             style={{ background: color }}
           >
-            {isIncome ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+            <CategoryIcon category={transaction.category} size={15} />
           </div>
           <div>
             <p className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { useAppStore } from '../store/useAppStore';
 import { getTotals, getCategoryBreakdown, getMonthlySummaries, formatCurrency } from '../utils';
+import { CategoryIcon } from '../components/CategoryIcon';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar,
@@ -219,7 +220,9 @@ export function Insights() {
                 <div key={c.name}>
                   <div className="flex items-center justify-between mb-1.5">
                     <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: colors[i % colors.length] }} />
+                      <div className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${colors[i % colors.length]}15`, color: colors[i % colors.length] }}>
+                         <CategoryIcon category={c.name} size={13} />
+                      </div>
                       <span className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>{c.name}</span>
                     </div>
                     <div>
