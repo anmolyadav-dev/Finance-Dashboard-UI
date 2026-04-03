@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from './store/useAppStore';
 import { Sidebar } from './components/Sidebar';
@@ -7,7 +7,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Transactions } from './pages/Transactions';
 import { Insights } from './pages/Insights';
 
-const pages: Record<string, JSX.Element> = {
+const pages: Record<string, ReactNode> = {
   dashboard: <Dashboard />,
   transactions: <Transactions />,
   insights: <Insights />,
